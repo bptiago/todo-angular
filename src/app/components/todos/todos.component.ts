@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Todo } from '../../models/Todo';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-todos',
@@ -22,15 +23,30 @@ export class TodosComponent {
     },
   ];
 
+  newTodo = new FormControl('', [Validators.required]);
+
   deleteTodo(id: Number) {
     this.todos = this.todos.filter((todo, index) => index !== id);
   }
 
   completeTodo(id: Number) {
     this.todos.map((todo, index) => {
-      if (index === id) todo.completed = true;
+      if (index === id) todo.completed = !todo.completed;
 
       return todo;
     });
+  }
+
+  createTodo() {
+    if (this.newTodo.invalid) {
+      return;
+    }
+
+    const todo: Todo = {
+      content: this.newTodo.value,
+      completed: false,
+    };
+
+    this.todos.push(todo);
   }
 }
