@@ -1,0 +1,33 @@
+.todo-list {
+  margin: auto;
+  margin-top: 10vh;
+  width: 500px;
+}
+
+.todo-list h2 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.todo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 10px 15px;
+  transition: 0.15s;
+}
+
+.todo-content {
+  overflow-wrap: break-word;
+  width: 50%;
+}
+
+.todo:hover {
+  background-color: #ececec;
+}
+
+.completed {
+  text-decoration: line-through;
+}
