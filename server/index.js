@@ -1,31 +1,20 @@
 const express = require("express");
-const { Sequelize } = require("sequelize");
 const app = express();
-const cors = require("cors");
-require("dotenv").config();
 
+// JSON bodies
+app.use(express.json());
+
+const cors = require("cors");
 app.use(cors());
 
-// const db = require("./models");
-const sequelize = new Sequelize(
-  "todo-angular",
-  "root",
-  process.env.DB_PASSWORD,
-  {
-    host: "localhost",
-    dialect: "mysql",
-  }
-);
+const usersRouter = require("./routes/Users");
+app.use("/users", usersRouter);
+const todoItemsRouter = require("./routes/TodoItems");
+app.use("/items", todoItemsRouter);
 
-try {
-  sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
-}
-
-//sequelize setup
-
-app.listen(8080, () => {
-  console.log("Server running on port 8080");
+const db = require("./models");
+db.sequelize.sync().then(() => {
+  app.listen(8080, () => {
+    console.log("Server running on port 8080");
+  });
 });
