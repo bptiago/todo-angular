@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { Todo } from '../../models/Todo';
+import { Component, inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { TodoService } from '../../services/todo.service';
+import { Todo } from '../../models/TodoInterface';
 
 @Component({
   selector: 'app-todos',
@@ -8,22 +9,13 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrl: './todos.component.css',
 })
 export class TodosComponent {
-  todos: Todo[] = [
-    {
-      content: 'test',
-      completed: false,
-    },
-    {
-      content: 'test2',
-      completed: false,
-    },
-    {
-      content: 'testsadasdasdasdasdasdasdsadad2dasdasdasdsadad',
-      completed: false,
-    },
-  ];
-
+  todos: Todo[] = [];
+  todoService:TodoService = inject(TodoService)
   newTodo = new FormControl('', [Validators.required]);
+
+  constructor() {
+    this.todos = this.todoService.getAllTodoItems();
+  }
 
   deleteTodo(id: Number) {
     this.todos = this.todos.filter((todo, index) => index !== id);
@@ -31,7 +23,7 @@ export class TodosComponent {
 
   completeTodo(id: Number) {
     this.todos.map((todo, index) => {
-      if (index === id) todo.completed = !todo.completed;
+      if (index === id) todo.isComplete = !todo.isComplete;
 
       return todo;
     });
@@ -44,9 +36,8 @@ export class TodosComponent {
 
     const todo: Todo = {
       content: this.newTodo.value,
-      completed: false,
+      isComplete: false,
     };
-
     this.todos.push(todo);
   }
 }

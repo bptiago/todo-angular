@@ -25,7 +25,7 @@
     <div>{{ i + 1 }}</div>
     <div
       (click)="completeTodo(i)"
-      class="todo-content {{ todo.completed ? 'completed' : '' }}"
+      class="todo-content {{ todo.isComplete ? 'completed' : '' }}"
     >
       {{ todo.content }}
     </div>
